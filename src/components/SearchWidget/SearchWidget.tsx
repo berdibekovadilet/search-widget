@@ -1,23 +1,26 @@
 import React, {useState} from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-interface City {
-    id: number;
-    name: string;
-}
+import {CitySelect} from "../CitySelect";
 
 interface SearchWidgetProps {
-    cities: City[];
     onSearch: (from: string, to: string, startDate: Date, endDate: Date | null) => void;
 }
 
-export const SearchWidget: React.FC<SearchWidgetProps> = ({cities, onSearch}) => {
+export const SearchWidget: React.FC<SearchWidgetProps> = ({onSearch}) => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [onlyStartDate, setOnlyStartDate] = useState(false);
+
+    const handleFromChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFrom(event.target.value);
+    };
+
+    const handleToChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setTo(event.target.value);
+    };
 
     const handleSearch = () => {
         if (!from || !to || !startDate || (!onlyStartDate && !endDate)) {
@@ -27,25 +30,10 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({cities, onSearch}) =>
         onSearch(from, to, startDate, endDate);
     };
 
-    const filteredCities = (city: string) => {
-        return cities.filter((c) => c.name.toLowerCase().includes(city.toLowerCase()));
-    };
-
     return (
         <div>
-            <input list="from-cities" value={from} onChange={e => setFrom(e.target.value)} placeholder="Откуда"/>
-            <datalist id="from-cities">
-                {filteredCities(from).map((city) => (
-                    <option key={city.id} value={city.name}/>
-                ))}
-            </datalist>
-
-            <input list="to-cities" value={to} onChange={e => setTo(e.target.value)} placeholder="Куда"/>
-            <datalist id="to-cities">
-                {filteredCities(to).map((city) => (
-                    <option key={city.id} value={city.name}/>
-                ))}
-            </datalist>
+            <CitySelect value={from} onChange={handleFromChange}/>
+            <CitySelect value={to} onChange={handleToChange}/>
 
             <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} selectsStart
                         startDate={startDate} endDate={endDate} minDate={new Date()}/>
@@ -59,4 +47,3 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({cities, onSearch}) =>
         </div>
     );
 };
-
