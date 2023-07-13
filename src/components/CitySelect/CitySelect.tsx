@@ -1,12 +1,15 @@
 import React, {FC, ChangeEvent} from 'react';
 import {cities, City} from '../../data/cities';
+import styles from "./CitySelect.module.css"
 
 interface CitySelectProps {
     value: string;
     onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+    placeholder: string;
 }
 
-export const CitySelect: FC<CitySelectProps> = ({value, onChange}) => {
+
+export const CitySelect: FC<CitySelectProps> = ({value, onChange, placeholder}) => {
     const citiesByCountry: Record<string, City[]> = cities.reduce((acc: Record<string, City[]>, city) => {
         if (!acc[city.country]) {
             acc[city.country] = [];
@@ -16,7 +19,8 @@ export const CitySelect: FC<CitySelectProps> = ({value, onChange}) => {
     }, {});
 
     return (
-        <select value={value} onChange={onChange}>
+        <select value={value} onChange={onChange} className={styles.wrapper}>
+            <option value="" disabled>{placeholder}</option>
             {Object.entries(citiesByCountry).map(([country, cities]) => (
                 <optgroup key={country} label={country}>
                     {cities.map((city) => (
@@ -27,5 +31,6 @@ export const CitySelect: FC<CitySelectProps> = ({value, onChange}) => {
                 </optgroup>
             ))}
         </select>
+
     );
 };

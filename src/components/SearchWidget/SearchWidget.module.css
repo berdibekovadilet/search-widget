@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: start;
+    padding-top: 32px;
+    padding-bottom: 16px;
+    border-radius: 5px;
+    width: 1100px;
+    margin: auto;
+    background-color: white;
+}
+
+.wrapper {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #E0E0E0;
+    width: 200px;
+}
+
+.header {
+    font-size: 0.7em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.searchButton {
+    min-width: 150px;
+    padding: 10px;
+    background-color: #333;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.startDateWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        padding: 20px;
+    }
+    .searchButton {
+        width: 220px;
+    }
+}
